@@ -1,8 +1,6 @@
-# wiget_events
+# Виджет событий с анимацией на чистом JS
 <br>
 ✅(completed)  
-<br>
-Виджет событий с анимацией на чистом JS
 
 <br>
 <img src="cover.jpg" />
