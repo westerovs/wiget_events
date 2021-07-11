@@ -7,7 +7,7 @@
 }
 
 .page {
-    height: 100%;
+    min-height: 100%;
 }
 
 .page-body {
@@ -16,10 +16,6 @@
     font-family: Geometria, Arial, Helvetica, sans-serif;
     background-color: black;
     color: #ccc;
-}
-
-a {
-    text-decoration: none;
 }
 
 li {
@@ -32,42 +28,30 @@ img {
     height: auto;
 }
 
-/*безопасное скрытие элемента*/
-.visually-hidden {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    margin: -1px !important;
-    padding: 0 !important;
-    border: 0 !important;
-    clip: rect(0 0 0 0) !important;
-    overflow: hidden !important;
-}
-
 .widget-events {
+    /*display: flex;*/
     position: absolute;
     top: 100px;
     right: 78px;
-    min-width: 264px;
-    min-height: 264px;
+    width: 164px;
+    height: 164px;
     color: #FFFFFF;
     z-index: 10;
 }
 
-.widget-events__item--clone,
 .widget-events__item {
     position: absolute;
-    width: 264px;
+    width: 164px;
 }
 
-.widget-events__item--clone {
-    transition: 1s;
-    transform: translate(-300px, 100px);
-    width: 604px;
+.widget-events__item:nth-child(1) {
+    z-index: 100;
 }
 
 .widget-events__item:nth-child(2) {
-    animation-name: events-fly;
+    outline: 2px dashed red;
+
+    /*animation-name: events-fly;*/
     animation-delay: 1s;
     animation-duration: 1s;
     animation-timing-function: ease-out;
@@ -75,53 +59,58 @@ img {
     z-index: 1;
 }
 
-.widget-events__item:nth-child(n+2) {
-    transform: scale(0.30) translate(424px, -570px);
-}
+/*.widget-events__item:nth-child(n+2) {*/
+/*    transform: scale(0.30) translate(424px, -570px);*/
+/*}*/
 
-.widget-events__item--clone .widget-events__data,
-.widget-events__item--clone .widget-events__slider-desc,
-.widget-events__item:nth-child(n+2) .widget-events__data,
-.widget-events__item:nth-child(n+2) .widget-events__slider-desc {
-    opacity: 0;
-}
+/*.widget-events__item:nth-child(n+2) .widget-events__data,*/
+/*.widget-events__item:nth-child(n+2) .widget-events__slider-desc {*/
+/*    opacity: 0;*/
+/*}*/
 
+/*.widget-events__data {*/
+/*    text-align: center;*/
+/*}*/
 
-.widget-events__data {
-    text-align: center;
-}
+/*.widget-events__data p {*/
+/*    font-size: 30px;*/
+/*    color: orange;*/
+/*}*/
 
-.widget-events__data p {
-    font-size: 30px;
-    color: orange;
-}
+/*.widget-events__cover {*/
+/*    margin-top: 30px;*/
+/*}*/
 
-.widget-events__cover {
-    margin-top: 30px;
-}
+/*.widget-events__cover-img {*/
+/*    border-radius: 50%;*/
+/*    margin-bottom: 32px;*/
+/*}*/
 
-.widget-events__cover-img {
-    border-radius: 50%;
-    margin-bottom: 32px;
-}
+/*.widget-events__slider-desc {*/
+/*    width: 100%;*/
+/*    font-size: 24px;*/
+/*    line-height: 29px;*/
+/*    color: #FFFFFF;*/
+/*    text-align: center;*/
+/*}*/
 
-.widget-events__slider-desc {
-    width: 100%;
-    font-size: 24px;
-    line-height: 29px;
-    color: #FFFFFF;
-    text-align: center;
-}
-
-
+/*!* новая анимация полёта *!*/
 @keyframes events-fly {
     0% {
-        transform: scale(0.30)  translate(424px, -388px);
+        transform: scale(0.50) translateX(0) rotate(-90deg);
     }
-    85% {
-        transform: scale(0.30) translate(0, 0);
+    15% {
+        transform: scale(0.50) translateX(-450px) rotate(-45deg);
+        opacity: 1;
+    }
+    30% {
+        transform: scale(1) translateX(0px) rotate(0deg);
+        opacity: 1;
+        z-index: 1;
     }
     100% {
-        transform: scale(1) translate(0, 0);
+        transform: scale(1) translateX(0px) rotate(0deg);
+        opacity: 1;
+        z-index: 11;
     }
 }

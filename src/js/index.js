@@ -1,15 +1,21 @@
 class EventWidget {
     constructor() {
         this.body = document.querySelector('body')
-        this.widgetEvents = document.querySelector('.widget-events')
         this.widgetList = document.querySelector('.widget-events__list')
 
         // mock
         this.dataEvents = [
-            { date: '26.02', name: 'CRISPY', path: 'src/img/cover-events.png' },
-            { date: '3.04', name: 'ЁЛКА', path: 'src/img/cover-events2.png' },
-            { date: '16.07', name: 'MAKSUITA', path: 'src/img/maksuita.png' },
+            { date: '26.02', name: 'CRISPY', path: 'src/img/1.jpg' },
+            { date: '3.04', name: 'ЁЛКА', path: 'src/img/2.jpg' },
+            { date: '16.07', name: 'MAKSUITA', path: 'src/img/3.jpg' },
+            { date: '26.02', name: 'CRISPY', path: 'src/img/4.jpg' },
+            { date: '3.04', name: 'ЁЛКА', path: 'src/img/5.jpg' },
+            { date: '16.07', name: 'MAKSUITA', path: 'src/img/6.jpg' },
+            { date: '26.02', name: 'CRISPY', path: 'src/img/7.jpg' },
+            { date: '3.04', name: 'ЁЛКА', path: 'src/img/8.jpg' },
         ]
+        
+        this.timerId = null
     }
     
     render = (container, template, place = 'beforeend') => {
@@ -18,72 +24,49 @@ class EventWidget {
         }
     }
     
-    createElement = ({ date, name, path }) => (`
-        <li class="widget-events__item">
+    createElement = ({ data, name, path }, index) => (`
+        <li class="widget-events__item ${ index }">
             <div class="widget-events__data">
-              <p>${ date }</p>
+              <p>${ data }</p>
             </div>
             <figure class="widget-events__cover">
               <img class="widget-events__cover-img"
                   src="${ path }"
                   width="264"
-                  height="264">
+                  height="264"
+                  alt="">
               <figcaption class="widget-events__slider-desc">${ name }</figcaption>
             </figure>
         </li>
     `)
     
-    renderElements = async () => {
-        this.dataEvents.forEach(data => {
-            this.render(this.widgetList, this.createElement(data))
+    renderElements = () => {
+        this.dataEvents.forEach((data, index) => {
+            this.render(this.widgetList, this.createElement(data, index + 1))
         })
     }
     
-    replacingElements = () => {
-        const widgetItems = Array.from(document.querySelectorAll('.widget-events__item'))
-    
-        let count = 0
-    
-        this.widgetList.addEventListener('animationend', () => {
-            this.widgetList.append(widgetItems[count])
-            count++
-    
-            if (count === widgetItems.length) {
-                count = 0
-            }
-        })
+    autoChange = (time = 500) => {
+        this.timerId = setInterval(() => this.slideNext(), time)
     }
-    
-    getClone = (element) => {
-        const clone = element.cloneNode(true)
-        clone.classList.remove('widget-events__item')
-        this.widgetEvents.append(clone)
-        setTimeout(() => clone.classList.add('widget-events__item--clone'), 0) // xak
-    
-        this.widgetEvents.addEventListener('transitionend', () => clone.remove())
-    }
-    
-    onShowSlider = () => {
-        this.widgetList.addEventListener('pointerdown', (event) => {
-            console.log('show slider')
-            
-            const target = event.target.closest('li')
-            if (!target) return
 
-            this.getClone(target)
-            
-            this.widgetList.classList.add('visually-hidden')
-            this.body.classList.add('event-slider')
+    slideNext = () => {
+        const images = Array.from(document.querySelectorAll('.widget-events__item'))
+        const first = images[0]
+        
+        this.widgetList.append(first)
+        
+        images.find(item => {
+            if (item.classList.contains('first')) item.classList.remove('first')
         })
+        images[1].classList.add('first')
     }
     
     async init() {
         console.log('INIT widget events')
         
-        // разобраться с async - не работает
-        await this.renderElements()
-        await this.replacingElements()
-        this.onShowSlider()
+        this.renderElements()
+        this.autoChange(1000)
     }
 }
 
